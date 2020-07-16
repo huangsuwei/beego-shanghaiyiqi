@@ -7,6 +7,7 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
+	beego.Router("/addUser1", &controllers.MainController{}, "get:ShowGet")
 	//给请求自定义方法,指定一个方法
 	/*beego.Router("/login", &controllers.LoginController{}, "get:ShowLogin")
 	    //多个请求指定一个方法
