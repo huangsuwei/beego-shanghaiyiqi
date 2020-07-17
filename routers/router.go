@@ -16,4 +16,18 @@ func init() {
 		beego.Router("/loginIndex", &controllers.LoginController{}, "*:ShowLogin")
 		//同时指定时，会优先访问指定了方法的方法
 		beego.Router("/loginTest", &controllers.LoginController{}, "*:ShowLogin;get:show")*/
+	//这个页面不重启，会找不到方法名
+	beego.Router("/register", &controllers.UserController{}, "get:ShowRegister")
+	beego.Router("/register", &controllers.UserController{}, "post:Register")
+
+	//登陆
+	beego.Router("/login", &controllers.UserController{}, "get:ShowLogin")
+	beego.Router("/login", &controllers.UserController{}, "post:Login")
+
+	//文章列表页面
+	beego.Router("/ArticleList", &controllers.ArticleController{}, "get:ArticleList")
+
+	//添加文章
+	beego.Router("/AddArticle", &controllers.ArticleController{}, "get:ShowAddArticle;post:AddArticle")
+
 }
