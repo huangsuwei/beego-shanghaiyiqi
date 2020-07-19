@@ -30,4 +30,16 @@ func init() {
 	//添加文章
 	beego.Router("/AddArticle", &controllers.ArticleController{}, "get:ShowAddArticle;post:AddArticle")
 
+	//文章详情
+	beego.Router("/ArticleDetail", &controllers.ArticleController{}, "get:ArticleDetail")
+
+	//文章删除
+	beego.Router("/ArticleDel", &controllers.ArticleController{}, "get:ArticleDel")
+
+	//文章编辑
+	//beego.Router("/AddArticle", &controllers.ArticleController{}, "get:AddArticle")
+	//分类添加
+	beego.Router("/AddType", &controllers.ArticleTypeController{}, "get:ShowAddType;post:AddType")
+
+	beego.Router("/ShowAllTypes", &controllers.ArticleTypeController{}, "get:ShowAllTypes")
 }
