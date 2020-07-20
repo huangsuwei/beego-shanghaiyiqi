@@ -64,6 +64,12 @@ func (userC *UserController) Register() {
 
 func (userC *UserController) ShowLogin() {
 	userC.TplName = "login.html"
+	userName := userC.Ctx.GetCookie("userName")
+	userC.Data["userName"] = userName
+	userC.Data["checked"] = ""
+	if userName == "" {
+		userC.Data["checked"] = "checked"
+	}
 }
 
 func (userC *UserController) Login() {
@@ -71,6 +77,7 @@ func (userC *UserController) Login() {
 	//获取数据
 	name := userC.GetString("name")
 	password := userC.GetString("password")
+	remember := userC.GetString("remember")
 	if name == "" || password == "" {
 		userC.Data["errmsg"] = "用户名或密码不得为空"
 		return
@@ -89,5 +96,49 @@ func (userC *UserController) Login() {
 	}
 
 	//userC.Ctx.WriteString("登陆成功！！")
+	//设置cookie
+	if remember == "on" {
+		userC.Ctx.SetCookie("userName", name, 100)
+	} else {
+		userC.Ctx.SetCookie("userName", name, -1)
+	}
+
+	userC.SetSession("userName", name)
 	userC.Redirect("/ArticleList", 302)
+}
+
+//退出登陆
+func (userC *UserController) Logout() {
+	//删除session
+	userC.DelSession("userName")
+	//跳转到登陆页面，
+	userC.Redirect("/login", 302)
+}
+
+func (userC *UserController) GetUserId() int {
+	name := userC.GetSession("userName")
+	if name == nil {
+		userC.Redirect("/login", 302)
+		return 0
+	}
+	o := orm.NewOrm()
+	var user models.User
+	user.Name = name.(string)
+	o.Read(&user, "name")
+
+	return user.Id
+}
+
+func (userC *UserController) GetUser() models.User {
+	name := userC.GetSession("userName")
+	beego.Info("name:", name)
+	var user models.User
+	if name == nil {
+		userC.Redirect("/login", 302)
+	}
+	o := orm.NewOrm()
+	user.Name = name.(string)
+	o.Read(&user, "name")
+
+	return user
 }

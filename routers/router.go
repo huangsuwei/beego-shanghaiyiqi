@@ -3,6 +3,7 @@ package routers
 import (
 	"beego-shanghaiyiqi/controllers"
 	"github.com/astaxie/beego"
+	//"github.com/astaxie/beego/context"
 )
 
 func init() {
@@ -23,6 +24,8 @@ func init() {
 	//登陆
 	beego.Router("/login", &controllers.UserController{}, "get:ShowLogin")
 	beego.Router("/login", &controllers.UserController{}, "post:Login")
+	//beego.Router("/article/Logout", &controllers.UserController{}, "get:Logout", Filter)//过滤器
+	beego.Router("/Logout", &controllers.UserController{}, "get:Logout")
 
 	//文章列表页面
 	beego.Router("/ArticleList", &controllers.ArticleController{}, "get:ArticleList")
@@ -42,4 +45,13 @@ func init() {
 	beego.Router("/AddType", &controllers.ArticleTypeController{}, "get:ShowAddType;post:AddType")
 
 	beego.Router("/ShowAllTypes", &controllers.ArticleTypeController{}, "get:ShowAllTypes")
+	beego.Router("/DelType", &controllers.ArticleTypeController{}, "get:DelType")
 }
+
+//过滤器先不用
+/*var Filter = func(ctx context.Context) {
+	name := ctx.Input.Session("userName")
+	if name == nil {
+		ctx.Redirect(302, "/login")
+	}
+}*/

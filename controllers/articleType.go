@@ -13,6 +13,7 @@ type ArticleTypeController struct {
 func (at *ArticleTypeController) ShowAddType() {
 	at.TplName = "addType.html"
 	at.Data["types"] = at.GetAllTypes()
+	at.Layout = "layout.html"
 }
 
 func (at *ArticleTypeController) ShowAllTypes() {
@@ -57,4 +58,18 @@ func (at *ArticleTypeController) GetIdByName(name string) int {
 	}
 
 	return atype.Id
+}
+
+func (at *ArticleTypeController) DelType() {
+	at.TplName = "add.html"
+	id, err := at.GetInt("id")
+	if err != nil {
+		at.Data["errmsg"] = err
+		return
+	}
+	var aType models.ArticleType
+	aType.Id = id
+	o := orm.NewOrm()
+	o.Delete(&aType)
+	at.Redirect("/AddType", 302)
 }

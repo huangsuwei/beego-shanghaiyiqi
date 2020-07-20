@@ -42,7 +42,7 @@ type ArticleType struct {
 //写init这个函数名是为了main函数引入包的时候就可以自动调用
 func init() {
 	//orm操作数据库
-	orm.RegisterDataBase("default", "mysql", "root:@tcp(192.168.1.109:3306)/test?charset=utf8")
+	orm.RegisterDataBase("default", "mysql", "root:@tcp(10.10.10.201:3306)/test?charset=utf8")
 	//创建表
 	orm.RegisterModel(new(User), new(Article), new(ArticleType))
 
